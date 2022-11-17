@@ -17,8 +17,7 @@ RUN mkdir /var/run/mysqld; \
       echo 'skip-name-resolve'; \
       echo 'bind-address=0.0.0.0'; \
     } | tee  /etc/my.cnf.d/docker.cnf; \
-    sed -i "s|skip-networking|skip-networking=0|g" \
-      /etc/my.cnf.d/mariadb-server.cnf
+    sed -i "s|skip-networking|skip-networking=0|g" /etc/my.cnf.d/mariadb-server.cnf
 
 #Creation de la base de donnee a partir de la config precedente (on precise ou la DB va etre stockee)
 RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql

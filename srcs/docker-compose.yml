@@ -8,15 +8,19 @@ services:
     build:
       context: .
       dockerfile: requirements/nginx/Dockerfile
-#    depends_on:
-#      - wordpress
+#depends_on signifie que le container ne demarrera pas tant que l'autre n'est pas construit 
+    depends_on:
+      - wordpress
     ports:
       - "443:443"
     volumes:
       - ./requirements/nginx/conf/:/etc/nginx/http.d/
       - ./requirements/nginx/tools:/etc/nginx/ssl/
-      - /home/${USER}/simple_docker_nginx_html/public/html:/var/www/
+      - wp-volume:/var/www/
+    networks:
+      - inception
     restart: always
+
 
   mariadb:
 
@@ -24,6 +28,7 @@ services:
     build:
       context: .
       dockerfile: requirements/mariadb/Dockerfile
+#On transfert nos infos secretes via args
       args:
         DB_NAME: ${DB_NAME}
         DB_USER: ${DB_USER}
@@ -31,5 +36,61 @@ services:
         DB_ROOT: ${DB_ROOT}
     ports:
       - "3306:3306"
+    networks:
+      - inception
     restart: always
 
+
+  wordpress:
+
+    container_name: wordpress
+    build:
+      context: .
+      dockerfile: requirements/wordpress/Dockerfile
+      args:
+        DB_NAME: ${DB_NAME}
+        DB_USER: ${DB_USER}
+        DB_PASS: ${DB_PASS} 
+    depends_on:
+      - mariadb
+    volumes:
+      - wp-volume:/var/www/
+    networks:
+      - inception
+    restart: always
+
+  redis:
+
+    container_name: redis
+    build:
+      context: .
+      dockerfile: requirements/bonus/redis/Dockerfile
+    ports:
+      - "6379:6379"
+    networks:
+      - inception
+    restart: always
+
+#Creation de partitions
+volumes:
+
+#Partition commune pour l'echange de donnees entre WP et nginx
+  wp-volume:
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/${USER}/data/wordpress
+
+#Partition pour stocker la DB
+  db-volume:
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/${USER}/data/mariadb
+
+#Creation de notre nom de docker-network pour y acceder (il fait le lien entre les containers)
+networks:
+  inception:
+    driver: bridge
+
+  

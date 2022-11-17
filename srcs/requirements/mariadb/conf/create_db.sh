@@ -31,7 +31,9 @@ CREATE USER '${DB_USER}'@'%' IDENTIFIED by '${DB_PASS}';
 GRANT ALL PRIVILEGES ON wordpress.* TO '${DB_USER}'@'%';
 FLUSH PRIVILEGES;
 EOF
-        #Exec de init.sql et supp le fichier de config supplementaire pour pas laisser de traces
-        /usr/bin/mysqld --user=mysql --bootstrap < /tmp/create_db.sql
-        rm -f /tmp/create_db.sql
+
+#Exec de init.sql et supp le fichier de config supplementaire pour pas laisser de traces
+          /usr/bin/mysqld --user=mysql --bootstrap < /tmp/create_db.sql
+          rm -f /tmp/create_db.sql
+
 fi
