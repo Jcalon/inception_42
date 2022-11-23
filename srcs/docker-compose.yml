@@ -71,6 +71,35 @@ services:
       - inception
     restart: always
 
+  vsftpd:
+    container_name: vsftpd
+    build:
+      context: .
+      dockerfile: requirements/bonus/vsftpd/Dockerfile
+      args:
+        FTP_USR: ${FTP_USR}
+        FTP_PWD: ${FTP_PWD}
+    ports:
+      - "21:21"
+    volumes:
+      - wp-volume:/var/www/
+    networks:
+      - inception
+    restart: always
+
+  adminer:
+    container_name: adminer
+    build:
+      context: .
+      dockerfile: requirements/bonus/adminer/Dockerfile
+    depends_on:
+      - mariadb
+    ports:
+      - "8080:8080"
+    networks:
+      - inception
+    restart: always
+
 #Creation de partitions
 volumes:
 
