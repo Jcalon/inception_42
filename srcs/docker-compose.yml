@@ -59,6 +59,19 @@ services:
       - inception
     restart: always
 
+  website:
+
+    container_name: website
+    build:
+      context: .
+      dockerfile: requirements/bonus/website/Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - inception
+    restart: always
+
+
   redis:
 
     container_name: redis
