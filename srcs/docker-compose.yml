@@ -51,6 +51,12 @@ services:
         DB_NAME: ${DB_NAME}
         DB_USER: ${DB_USER}
         DB_PASS: ${DB_PASS} 
+        WP_ADMIN: ${WP_ADMIN}
+        WP_ADMIN_PASS: ${WP_ADMIN_PASS}
+        WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+        WP_USER: ${WP_USER}
+        WP_USER_EMAIL: ${WP_USER_EMAIL}
+        WP_USER_PASS: ${WP_USER_PASS}
     depends_on:
       - mariadb
     volumes:
@@ -59,18 +65,18 @@ services:
       - inception
     restart: always
 
-  website:
-
-    container_name: website
-    build:
-      context: .
-      dockerfile: requirements/bonus/website/Dockerfile
-    ports:
-      - "80:80"
-    networks:
-      - inception
-    restart: always
-
+#  website:
+#
+ #   container_name: website
+  #  build:
+   #   context: .
+    #  dockerfile: requirements/bonus/website/Dockerfile
+    #ports:
+     # - "80:80"
+   # networks:
+    #  - inception
+    #restart: always
+#
 
   redis:
 

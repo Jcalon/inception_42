@@ -26,4 +26,17 @@ define( 'WP_REDIS_DATABASE', 0 );
 require_once ABSPATH . 'wp-settings.php';
 EOF
 
+        echo "Installing Wordpress..."
+        wp core install --url=jcalon.42.fr --title="Inception" --admin_user=$WP_ADMIN \
+                --admin_password=$WP_ADMIN_PASS --admin_email=$WP_ADMIN_EMAIL --skip-email
+        echo "Wordpress is installed!"
+
+        echo "Creating second user.."
+        wp user create $WP_USER $WP_USER_EMAIL --user_pass=$WP_USER_PASS --role=author
+        echo "Second user created!"
+
+        echo "Installing Wordpress theme..."
+        wp theme install twentytwentyone --activate
+        echo "Wordpress theme installed!"
+
 fi
