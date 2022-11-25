@@ -42,16 +42,14 @@ WORKDIR /var/www
 
 #Download et unzip de WP Client
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-RUN php wp-cli.phar --info
 RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
-RUN pwd
 RUN wp core download --path=/var/www/
 
 #Exec d'un script de configuration de WP
 #chmod pour que notre CMS puisse download des plugins, themes, etc
 COPY requirements/wordpress/conf/config_wp.sh .
-RUN sh config_wp.sh && rm config_wp.sh && chmod -R 0777 wp-content
-
+#RUN sh config_wp.sh && rm config_wp.sh && chmod -R 0777 wp-content
+RUN chmod +x config_wp.sh
 #On exec notre php-fpm
-CMD ["/usr/sbin/php-fpm8", "-F"]
+CMD ["./config_wp.sh"]
