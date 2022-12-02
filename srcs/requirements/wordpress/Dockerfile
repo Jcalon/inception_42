@@ -54,13 +54,12 @@ RUN apk update && apk upgrade && apk add --no-cache php${PHP_VERSION} \
                                                     mariadb-client \
 													redis \
 													tar \
-                                                    wget && \
+                                                    wget
 # Config de php
-    sed -i "s|listen = 127.0.0.1:9000|listen = 9000|g" /etc/php8/php-fpm.d/www.conf && \
-    sed -i "s|;listen.owner = nobody|listen.owner = nobody|g" /etc/php8/php-fpm.d/www.conf && \
-    sed -i "s|;listen.group = nobody|listen.group = nobody|g" /etc/php8/php-fpm.d/www.conf
 
 RUN	adduser -S nginx &&	addgroup -S nginx
+COPY requirements/wordpress/conf/php-fpm.conf /etc/php8/php-fpm.conf
+COPY requirements/wordpress/conf/www.conf /etc/php8/php-fpm.d/www.conf
 
 # On deplace le site statique
 COPY requirements/wordpress/conf/index.html /tmp/index.html

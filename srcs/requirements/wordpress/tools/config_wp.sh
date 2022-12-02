@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# On attend le lancement de mysql
 while ! mariadb -hmariadb -u$DB_USER -p$DB_PASS $DB_NAME &>/dev/null; do
     sleep 3
 done
