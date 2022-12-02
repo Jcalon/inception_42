@@ -46,11 +46,11 @@ RUN apk update && apk upgrade && apk add --no-cache php${PHP_VERSION} \
 
 #Modif de la configuration php afin que notre fastcgi ecoute le port 9000
 RUN	adduser -S nginx &&	addgroup -S nginx
-COPY requirements/wordpress/conf/php-fpm.conf /etc/php8/php-fpm.conf
-COPY requirements/wordpress/conf/www.conf /etc/php8/php-fpm.d/www.conf
+COPY conf/php-fpm.conf /etc/php8/php-fpm.conf
+COPY conf/www.conf /etc/php8/php-fpm.d/www.conf
 
 # On deplace le site statique
-COPY requirements/wordpress/conf/index.html /tmp/index.html
+COPY conf/index.html /tmp/index.html
 
 #Download de WP Client
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
@@ -60,6 +60,6 @@ RUN cp wp-cli.phar /usr/bin/wp
 WORKDIR /var/www/html/wordpress
 
 #Exec d'un script de configuration de WP
-COPY requirements/wordpress/tools/config_wp.sh /tmp/config_wp.sh
+COPY tools/config_wp.sh /tmp/config_wp.sh
 
 ENTRYPOINT [ "sh", "/tmp/config_wp.sh" ]
