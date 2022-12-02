@@ -1,4 +1,4 @@
-FROM alpine:3.15
+FROM alpine:3.13
 
 #MAJ du gestionnaire de fichiers et installation de nginx
 RUN apk update && apk upgrade && apk add --no-cache nginx openssl

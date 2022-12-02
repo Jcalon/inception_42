@@ -1,4 +1,4 @@
-FROM alpine:3.15
+FROM alpine:3.13
 
 RUN apk update && apk upgrade && apk add --no-cache redis && \
     sed -i "s|bind 127.0.0.1|#bind 127.0.0.1|g"  /etc/redis.conf && \
