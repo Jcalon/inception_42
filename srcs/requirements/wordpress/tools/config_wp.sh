@@ -23,10 +23,10 @@ if [ ! -f "/var/www/html/index.html" ]; then
 
     # BONUS Reglages liés a redis pour les bonus
     sed -i "40i define( 'WP_REDIS_HOST', 'redis' );"      wp-config.php
-    sed -i "41i define( 'WP_REDIS_PORT', 6379 );"               wp-config.php
-    sed -i "42i define( 'WP_REDIS_TIMEOUT', 1 );"               wp-config.php
-    sed -i "43i define( 'WP_REDIS_READ_TIMEOUT', 1 );"          wp-config.php
-    sed -i "44i define( 'WP_REDIS_DATABASE', 0 );\n"            wp-config.php
+    sed -i "41i define( 'WP_REDIS_PORT', 6379 );"         wp-config.php
+    sed -i "42i define( 'WP_REDIS_TIMEOUT', 1 );"         wp-config.php
+    sed -i "43i define( 'WP_REDIS_READ_TIMEOUT', 1 );"    wp-config.php
+    sed -i "44i define( 'WP_REDIS_DATABASE', 0 );\n"      wp-config.php
 
     wp plugin install redis-cache --activate --allow-root
     wp plugin update --all --allow-root
