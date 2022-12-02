@@ -1,9 +1,5 @@
 FROM alpine:3.16
 
-#user et mdp du serveur ftp via ARG
-ARG FTP_USR \
-    FTP_PWD
-
 #installation de vstpd
 RUN apk update && apk upgrade && apk add --no-cache vsftpd
 
