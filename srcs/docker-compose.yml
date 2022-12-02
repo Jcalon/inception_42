@@ -30,19 +30,19 @@ services:
       - backend
     restart: always
     environment:
-      MYSQL_HOST:       ${DB_HOST}
-      WP_DATABASE_NAME: ${DB_NAME}
-      WP_DATABASE_USR:  ${DB_USER}
-      WP_DATABASE_PWD:  ${DB_PASS}
-      DOMAIN_NAME:      ${DOMAIN_NAME}
-      WP_TITLE:         ${WP_NAME}
-      WP_ADMIN_USR:     ${WP_ADMIN}
-      WP_ADMIN_PWD:     ${WP_ADMIN_PASS}
-      WP_ADMIN_EMAIL:   ${WP_ADMIN_EMAIL}
-      WP_USR:           ${WP_USER}
-      WP_PWD:           ${WP_USER_PASS}
-      WP_EMAIL:         ${WP_USER_EMAIL}
-      REDIS_HOST:       ${REDIS_HOST}
+      DB_HOST: ${DB_HOST}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DOMAIN_NAME: ${DOMAIN_NAME}
+      WP_NAME: ${WP_NAME}
+      WP_ADMIN: ${WP_ADMIN}
+      WP_ADMIN_PASS: ${WP_ADMIN_PASS}
+      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+      WP_USER: ${WP_USER}
+      WP_USER_PASS: ${WP_USER_PASS}
+      WP_USER_EMAIL: ${WP_USER_EMAIL}
+      REDIS_HOST: ${REDIS_HOST}
 
   mariadb:
     build: requirements/mariadb/
@@ -55,10 +55,10 @@ services:
       - backend
     restart: always
     environment:
-      MYSQL_ROOT_PWD:   ${DB_ROOT}
-      WP_DATABASE_NAME: ${DB_NAME}
-      WP_DATABASE_USR:  ${DB_USER}
-      WP_DATABASE_PWD:  ${DB_PASS}
+      DB_ROOT: ${DB_ROOT}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
     
   redis:
     build: requirements/bonus/redis
@@ -81,8 +81,8 @@ services:
       - backend
     restart: always
     environment:
-      FTP_USR: ${FTP_USER}
-      FTP_PWD: ${FTP_PASS}
+      FTP_USER: ${FTP_USER}
+      FTP_PASS: ${FTP_PASS}
 
   portainer:
     image: portainer/portainer-ce:latest
