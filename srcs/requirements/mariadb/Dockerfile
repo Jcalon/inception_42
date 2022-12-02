@@ -1,11 +1,5 @@
 FROM alpine:3.16
 
-#On envoie les donnees via ARG et pas ENV pour pas qu'elles soient utilisees apres le demarrage
-ARG DB_NAME \
-    DB_USER \
-    DB_PASS \
-    DB_ROOT
-
 #Installation de MariaDB
 RUN apk update && apk upgrade && apk add --no-cache mariadb mariadb-client
 

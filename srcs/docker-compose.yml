@@ -15,22 +15,14 @@ services:
     volumes:
       - "~/Desktop/inception/website:/var/www/html"
     networks:
-      - inception
+       - frontend
     restart: always
 
 
   mariadb:
 
     container_name: mariadb
-    build:
-      context: .
-      dockerfile: requirements/mariadb/Dockerfile
-#On transfert nos infos secretes via args
-      args:
-        DB_NAME: ${DB_NAME}
-        DB_USER: ${DB_USER}
-        DB_PASS: ${DB_PASS}
-        DB_ROOT: ${DB_ROOT}
+    build: requirements/mariadb/
     ports:
       - "3306:3306"
     volumes:
@@ -38,25 +30,17 @@ services:
     networks:
       - inception
     restart: always
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_ROOT: ${DB_ROOT}
 
 
   wordpress:
 
     container_name: wordpress
-    build:
-      context: .
-      dockerfile: requirements/wordpress/Dockerfile
-      args:
-        DB_NAME: ${DB_NAME}
-        DB_USER: ${DB_USER}
-        DB_PASS: ${DB_PASS} 
-        WP_ADMIN: ${WP_ADMIN}
-        WP_ADMIN_PASS: ${WP_ADMIN_PASS}
-        WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
-        WP_USER: ${WP_USER}
-        WP_USER_EMAIL: ${WP_USER_EMAIL}
-        WP_USER_PASS: ${WP_USER_PASS}
-        DOMAIN_NAME: ${DOMAIN_NAME}
+    build: requirements/wordpress/
     depends_on:
       - mariadb
     volumes:
@@ -64,8 +48,20 @@ services:
     ports:
       - "9000:9000"
     networks:
-      - inception
+      - frontend
+      - backend
     restart: always
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS} 
+      WP_ADMIN: ${WP_ADMIN}
+      WP_ADMIN_PASS: ${WP_ADMIN_PASS}
+      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+      WP_USER: ${WP_USER}
+      WP_USER_EMAIL: ${WP_USER_EMAIL}
+      WP_USER_PASS: ${WP_USER_PASS}
+      DOMAIN_NAME: ${DOMAIN_NAME}
 
 
   redis:
@@ -75,28 +71,44 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - inception
+      - backend
     restart: always
 
   vsftpd:
+
     container_name: vsftpd
-    build:
-      context: .
-      dockerfile: requirements/bonus/vsftpd/Dockerfile
-      args:
-        FTP_USR: ${FTP_USR}
-        FTP_PWD: ${FTP_PWD}
+    build: requirements/bonus/vsftpd/
     ports:
       - "21:21"
+      - "21100-21110:21100-21110"
     volumes:
       - "~/Desktop/inception/website:/var/www/html/"
     networks:
-      - inception
+      - backend
+    restart: always
+    environment:
+      FTP_USR: ${FTP_USR}
+      FTP_PWD: ${FTP_PWD}
+
+  portainer:
+
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    ports:
+      - "8000:8000"
+      - "9443:9443"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    security_opt:
+      - no-new-privileges:true
     restart: always
 
 #Creation de notre nom de docker-network pour y acceder (il fait le lien entre les containers)
 networks:
-  inception:
+  frontend:
+    driver: bridge
+  backend:
     driver: bridge
 
   

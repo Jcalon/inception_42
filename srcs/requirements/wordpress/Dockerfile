@@ -1,22 +1,10 @@
 FROM alpine:3.16
 
-#On envoie les donnees via ARG et pas ENV pour pas qu'elles soient utilisees apres le demarrage et on precise la version de PHP
-ARG DB_NAME \
-    DB_USER \
-    DB_PASS \
-    WP_ADMIN \
-    WP_ADMIN_EMAIL \
-    WP_ADMIN_PASS \
-    WP_USER \
-    WP_USER_EMAIL \
-    WP_USER_PASS \
-	DOMAIN_NAME \
-    PHP_VERSION=8
+ARG PHP_VERSION=8
 
 #Installation de php sur lequel va tourner WP, -fpm pour interagir avec nginx, -fpm pour mariaDB et tout le reste requis par la doc WP
-#wget et tar pour download WP
+#wget pour download WP
 #adminer et redis pour le bonus
-#Modif de la configuration php afin que notre fastcgi ecoute le port 9000
 RUN apk update && apk upgrade && apk add --no-cache php${PHP_VERSION} \
                                                     php${PHP_VERSION}-fpm \
                                                     php${PHP_VERSION}-mysqli \
@@ -55,8 +43,8 @@ RUN apk update && apk upgrade && apk add --no-cache php${PHP_VERSION} \
 													redis \
 													tar \
                                                     wget
-# Config de php
 
+#Modif de la configuration php afin que notre fastcgi ecoute le port 9000
 RUN	adduser -S nginx &&	addgroup -S nginx
 COPY requirements/wordpress/conf/php-fpm.conf /etc/php8/php-fpm.conf
 COPY requirements/wordpress/conf/www.conf /etc/php8/php-fpm.d/www.conf
