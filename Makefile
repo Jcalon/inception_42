@@ -6,7 +6,7 @@ all: clean build
 
 build:
 	@echo -e "Building configuration ${NAME}\n"
-	@docker-compose -f ./srcs/docker-compose.yml up --env-file ./srcs/.env --build
+	@docker-compose -f ./srcs/docker-compose.yml up --env-file srcs/.env --build
 
 stop:
 	@echo -e "Stopping configuration ${NAME}\n"
