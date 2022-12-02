@@ -9,9 +9,6 @@ ARG DB_NAME \
 #Installation de MariaDB
 RUN apk update && apk upgrade && apk add --no-cache mariadb mariadb-client
 
-#Ouverture du port MySQL donc MariaDB par defaut
-EXPOSE 3306
-
 #Exec d'un script pour creer la DB grace aux ARG
 COPY requirements/mariadb/conf/create_db.sh /tmp/create_db.sh
 RUN chmod +x /tmp/create_db.sh
