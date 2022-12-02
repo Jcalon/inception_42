@@ -57,26 +57,17 @@ services:
         WP_USER: ${WP_USER}
         WP_USER_EMAIL: ${WP_USER_EMAIL}
         WP_USER_PASS: ${WP_USER_PASS}
+        DOMAIN_NAME: ${DOMAIN_NAME}
     depends_on:
       - mariadb
     volumes:
       - wp-volume:/var/www/
+    ports:
+      - "9000:9000"
     networks:
       - inception
     restart: always
 
-#  website:
-#
- #   container_name: website
-  #  build:
-   #   context: .
-    #  dockerfile: requirements/bonus/website/Dockerfile
-    #ports:
-     # - "80:80"
-   # networks:
-    #  - inception
-    #restart: always
-#
 
   redis:
 
@@ -102,19 +93,6 @@ services:
       - "21:21"
     volumes:
       - wp-volume:/var/www/
-    networks:
-      - inception
-    restart: always
-
-  adminer:
-    container_name: adminer
-    build:
-      context: .
-      dockerfile: requirements/bonus/adminer/Dockerfile
-    depends_on:
-      - mariadb
-    ports:
-      - "8080:8080"
     networks:
       - inception
     restart: always

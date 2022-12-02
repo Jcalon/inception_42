@@ -7,21 +7,12 @@ ARG DB_NAME \
     DB_ROOT
 
 #Installation de MariaDB
-RUN apk update && apk upgrade && apk add --no-cache mysql mysql-client
+RUN apk update && apk upgrade && apk add --no-cache mariadb mariadb-client
 
 #Modif de la configuration MySQL
 #tee envoie echo au fichier et sed remplace les lignes
-RUN mkdir /var/run/mysqld; \
-    chmod 777 /var/run/mysqld; \
-    { echo '[mysqld]'; \
-      echo 'skip-host-cache'; \
-      echo 'skip-name-resolve'; \
-      echo 'bind-address=0.0.0.0'; \
-    } | tee  /etc/my.cnf.d/docker.cnf; \
-    sed -i "s|skip-networking|skip-networking=0|g" /etc/my.cnf.d/mariadb-server.cnf
-
-#Creation de la base de donnee a partir de la config precedente (on precise ou la DB va etre stockee)
-RUN mysql_install_db --user=root --datadir=/var/lib/mysql
+RUN sed -i "s|skip-networking|skip-networking=0|g" /etc/my.cnf.d/mariadb-server.cnf \
+    sed -i "s|.*bind-address\s*=.*|bind-address=0.0.0.0|g" /etc/my.cnf.d/mariadb-server.cnf
 
 #Ouverture du port MySQL donc MariaDB par defaut
 EXPOSE 3306
