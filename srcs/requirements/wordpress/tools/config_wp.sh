@@ -36,4 +36,4 @@ fi
 wp redis enable --allow-root
 
 echo "Wordpress started on :9000"
-/usr/sbin/php-fpm8 -F -R
+/usr/sbin/php-fpm7 -F -R
