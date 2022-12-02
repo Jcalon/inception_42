@@ -73,6 +73,6 @@ RUN cp wp-cli.phar /usr/bin/wp
 WORKDIR /var/www/html/wordpress
 
 #Exec d'un script de configuration de WP
-COPY requirements/wordpress/tools/config_wp.sh /tmp/configure.sh
+COPY requirements/wordpress/tools/config_wp.sh /tmp/config_wp.sh
 
-CMD ["/tmp/config_wp.sh"]
+ENTRYPOINT [ "sh", "/tmp/config_wp.sh" ]
