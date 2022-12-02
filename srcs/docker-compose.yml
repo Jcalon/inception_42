@@ -28,7 +28,7 @@ services:
     volumes:
        - "~/Desktop/inception/mariadb:/var/lib/mysql"
     networks:
-      - inception
+      - backend
     restart: always
     environment:
       DB_NAME: ${DB_NAME}
@@ -43,6 +43,7 @@ services:
     build: requirements/wordpress/
     depends_on:
       - mariadb
+      - redis
     volumes:
       - "~/Desktop/inception/website:/var/www/html"
     ports:
