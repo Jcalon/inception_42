@@ -15,6 +15,6 @@ clean: stop
 	@rm -rf ~/Desktop/inception
 
 prune: clean
-        @docker system prune -f
+	@docker system prune -f
 
 .PHONY: all build stop clean
