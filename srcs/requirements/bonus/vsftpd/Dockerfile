@@ -1,4 +1,4 @@
-FROM alpine:3.16
+FROM alpine:3.15
 
 #installation de vstpd
 RUN apk update && apk upgrade && apk add --no-cache vsftpd

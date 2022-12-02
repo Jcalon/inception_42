@@ -1,4 +1,4 @@
-FROM alpine:3.16
+FROM alpine:3.15
 
 #Installation de php sur lequel va tourner WP, -fpm pour interagir avec nginx, -fpm pour mariaDB et tout le reste requis par la doc WP
 #wget pour download WP
