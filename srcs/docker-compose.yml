@@ -1,84 +1,77 @@
 version: '3'
-
 services:
 
   nginx:
-
-    container_name: nginx
     build: requirements/nginx/
-#depends_on signifie que le container ne demarrera pas tant que l'autre n'est pas construit 
-    depends_on:
-      - wordpress
+    container_name: nginx
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - "~/Desktop/inception/website:/var/www/html"
+    depends_on:
+      - wordpress
     networks:
-       - frontend
+      - frontend
     restart: always
-
-
-  mariadb:
-
-    container_name: mariadb
-    build: requirements/mariadb/
-    ports:
-      - "3306:3306"
-    volumes:
-       - "~/Desktop/inception/mariadb:/var/lib/mysql"
-    networks:
-      - backend
-    restart: always
-    environment:
-      DB_NAME: ${DB_NAME}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-      DB_ROOT: ${DB_ROOT}
-
 
   wordpress:
-
-    container_name: wordpress
     build: requirements/wordpress/
+    container_name: wordpress
+    ports:
+      - "9000:9000"
+    volumes:
+      - "~/Desktop/inception/website:/var/www/html"
     depends_on:
       - mariadb
       - redis
-    volumes:
-      - "~/Desktop/inception/website:/var/www/html"
-    ports:
-      - "9000:9000"
     networks:
       - frontend
       - backend
     restart: always
     environment:
-      DB_NAME: ${DB_NAME}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS} 
-      WP_ADMIN: ${WP_ADMIN}
-      WP_ADMIN_PASS: ${WP_ADMIN_PASS}
-      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
-      WP_USER: ${WP_USER}
-      WP_USER_EMAIL: ${WP_USER_EMAIL}
-      WP_USER_PASS: ${WP_USER_PASS}
-      DOMAIN_NAME: ${DOMAIN_NAME}
+      MYSQL_HOST:       ${DB_HOST}
+      WP_DATABASE_NAME: ${DB_NAME}
+      WP_DATABASE_USR:  ${DB_USER}
+      WP_DATABASE_PWD:  ${DB_PASS}
+      DOMAIN_NAME:      ${DOMAIN_NAME}
+      WP_TITLE:         ${WP_NAME}
+      WP_ADMIN_USR:     ${WP_ADMIN}
+      WP_ADMIN_PWD:     ${WP_ADMIN_PASS}
+      WP_ADMIN_EMAIL:   ${WP_ADMIN_EMAIL}
+      WP_USR:           ${WP_USER}
+      WP_PWD:           ${WP_USER_PASS}
+      WP_EMAIL:         ${WP_USER_EMAIL}
+      REDIS_HOST:       ${REDIS_HOST}
 
-
+  mariadb:
+    build: requirements/mariadb/
+    container_name: mariadb
+    ports:
+      - "3306:3306"
+    volumes:
+      - "~/Desktop/inception/mariadb:/var/lib/mysql"
+    networks:
+      - backend
+    restart: always
+    environment:
+      MYSQL_ROOT_PWD:   ${DB_ROOT}
+      WP_DATABASE_NAME: ${DB_NAME}
+      WP_DATABASE_USR:  ${DB_USER}
+      WP_DATABASE_PWD:  ${DB_PASS}
+    
   redis:
-
+    build: requirements/bonus/redis
     container_name: redis
-    build: requirements/bonus/redis/
     ports:
       - "6379:6379"
     networks:
       - backend
     restart: always
 
-  vsftpd:
-
-    container_name: vsftpd
-    build: requirements/bonus/vsftpd/
+  ftp-server:
+    build: requirements/bonus/ftp-server
+    container_name: ftp-server
     ports:
       - "21:21"
       - "21100-21110:21100-21110"
@@ -88,11 +81,10 @@ services:
       - backend
     restart: always
     environment:
-      FTP_USR: ${FTP_USR}
-      FTP_PWD: ${FTP_PWD}
+      FTP_USR: ${FTP_USER}
+      FTP_PWD: ${FTP_PASS}
 
   portainer:
-
     image: portainer/portainer-ce:latest
     container_name: portainer
     ports:
@@ -108,8 +100,4 @@ services:
 #Creation de notre nom de docker-network pour y acceder (il fait le lien entre les containers)
 networks:
   frontend:
-    driver: bridge
   backend:
-    driver: bridge
-
-  

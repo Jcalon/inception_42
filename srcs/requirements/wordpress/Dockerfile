@@ -3,7 +3,7 @@ FROM alpine:3.13
 #Installation de php sur lequel va tourner WP, -fpm pour interagir avec nginx, -fpm pour mariaDB et tout le reste requis par la doc WP
 #wget pour download WP
 #adminer et redis pour le bonus
-RUN apk update && apk upgrade && apk add --no-cache \
+RUN	apk update && apk upgrade && apk add --no-cache \
 		wget				\
         tar                 \
 		mariadb-client		\
@@ -54,7 +54,8 @@ RUN apk update && apk upgrade && apk add --no-cache \
 		php7-xmlwriter		\
 		php7-xsl			\
 		php7-zip			\
-		php7-zlib
+		php7-zlib					
+		
 
 #Modif de la configuration php afin que notre fastcgi ecoute le port 9000
 RUN	adduser -S nginx &&	addgroup -S nginx
@@ -71,7 +72,5 @@ RUN cp wp-cli.phar /usr/bin/wp
 
 WORKDIR /var/www/html/wordpress
 
-#Exec d'un script de configuration de WP
-COPY tools/config_wp.sh /tmp/config_wp.sh
-
-ENTRYPOINT [ "sh", "/tmp/config_wp.sh" ]
+COPY tools/configure.sh /tmp/configure.sh
+ENTRYPOINT [ "sh", "/tmp/configure.sh" ]

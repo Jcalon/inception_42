@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # On attend le lancement de mysql
-while ! mariadb -hmariadb -u$DB_USER -p$DB_PASS $DB_NAME &>/dev/null; do
+while ! mariadb -h$DB_HOST -u$DB_USER -p$DB_PASS $DB_NAME &>/dev/null; do
     sleep 3
 done
 
@@ -16,17 +16,17 @@ if [ ! -f "/var/www/html/index.html" ]; then
 
 	# Installation de wordpress via WP-CLI
     wp core download --allow-root
-    wp config create --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$DB_PASS --dbhost=mariadb --dbcharset="utf8" --dbcollate="utf8_general_ci" --allow-root
-    wp core install --url=$DOMAIN_NAME/wordpress --title="Inception" --admin_user=$WP_ADMIN --admin_password=$WP_ADMIN_PASS --admin_email=$WP_ADMIN_EMAIL --skip-email --allow-root
+    wp config create --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$DB_PASS --dbhost=$DB_HOST --dbcharset="utf8" --dbcollate="utf8_general_ci" --allow-root
+    wp core install --url=$DOMAIN_NAME/wordpress --title=$WP_NAME --admin_user=$WP_ADMIN --admin_password=$WP_ADMIN_PASS --admin_email=$WP_ADMIN_EMAIL --skip-email --allow-root
     wp user create $WP_USER $WP_USER_EMAIL --role=author --user_pass=$WP_USER_PASS --allow-root
     wp theme install inspiro --activate --allow-root
 
     # BONUS Reglages liés a redis pour les bonus
-    sed -i "40i define( 'WP_REDIS_HOST', 'redis' );"      wp-config.php
-    sed -i "41i define( 'WP_REDIS_PORT', 6379 );"         wp-config.php
-    sed -i "42i define( 'WP_REDIS_TIMEOUT', 1 );"         wp-config.php
-    sed -i "43i define( 'WP_REDIS_READ_TIMEOUT', 1 );"    wp-config.php
-    sed -i "44i define( 'WP_REDIS_DATABASE', 0 );\n"      wp-config.php
+    sed -i "40i define( 'WP_REDIS_HOST', '$REDIS_HOST' );"      wp-config.php
+    sed -i "41i define( 'WP_REDIS_PORT', 6379 );"               wp-config.php
+    sed -i "42i define( 'WP_REDIS_TIMEOUT', 1 );"               wp-config.php
+    sed -i "43i define( 'WP_REDIS_READ_TIMEOUT', 1 );"          wp-config.php
+    sed -i "44i define( 'WP_REDIS_DATABASE', 0 );\n"            wp-config.php
 
     wp plugin install redis-cache --activate --allow-root
     wp plugin update --all --allow-root
