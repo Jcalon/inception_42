@@ -69,9 +69,9 @@ services:
       - backend
     restart: always
 
-  ftp-server:
-    build: requirements/bonus/ftp-server
-    container_name: ftp-server
+  vsftpd:
+    build: requirements/bonus/vsftpd
+    container_name: vsftpd
     ports:
       - "21:21"
       - "21100-21110:21100-21110"
