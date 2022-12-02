@@ -28,7 +28,7 @@ services:
     volumes:
        - "~/Desktop/inception/mariadb:/var/lib/mysql"
     networks:
-      - backend
+      - inception
     restart: always
     environment:
       DB_NAME: ${DB_NAME}
