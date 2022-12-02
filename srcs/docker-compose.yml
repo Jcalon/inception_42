@@ -22,7 +22,9 @@ services:
   mariadb:
 
     container_name: mariadb
-    build: requirements/mariadb/
+    build:
+      context: .
+      dockerfile: requirements/mariadb/Dockerfile
 #On transfert nos infos secretes via args
       args:
         DB_NAME: ${DB_NAME}
