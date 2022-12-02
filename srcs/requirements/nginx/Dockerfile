@@ -7,4 +7,4 @@ RUN apk update && apk upgrade && apk add --no-cache nginx
 EXPOSE 443
 
 #Execution de la config installee
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
