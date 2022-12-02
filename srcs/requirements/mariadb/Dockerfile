@@ -14,4 +14,4 @@ COPY requirements/mariadb/conf/create_db.sh /tmp/create_db.sh
 RUN chmod +x /tmp/create_db.sh
 
 #On passe a mysql cree au dessus et sous cet user on demarre la base de donnee
-ENTRYPOINT ["sh", "/tmp/configure.sh"]
+ENTRYPOINT ["sh", "/tmp/create_db.sh"]
