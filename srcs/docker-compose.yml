@@ -81,6 +81,7 @@ services:
   vsftpd:
     container_name: vsftpd
     build:
+      context: .
       dockerfile: requirements/bonus/vsftpd/Dockerfile
       args:
         FTP_USR: ${FTP_USR}
