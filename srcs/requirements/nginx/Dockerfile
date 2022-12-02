@@ -7,7 +7,8 @@ RUN apk update && apk upgrade && apk add --no-cache nginx openssl
 RUN mkdir /etc/nginx/ssl
 RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
         -out /etc/nginx/ssl/jcalon.pem \
-        -keyout /etc/nginx/ssl/jcalon.key
+        -keyout /etc/nginx/ssl/jcalon.key \
+		-subj "/C=IT/ST=Bordeaux/L=Bordeaux/O=42 School/OU=jcalon/CN=jcalon/"
 
 #Config de nginx
 RUN mkdir -p /run/nginx
