@@ -2,7 +2,7 @@ SHELL := /bin/sh
 
 NAME = inception
 
-all: prune build
+all: clean build
 
 build:
 	@echo -e "Building configuration ${NAME}\n"
