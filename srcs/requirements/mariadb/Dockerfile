@@ -9,11 +9,6 @@ ARG DB_NAME \
 #Installation de MariaDB
 RUN apk update && apk upgrade && apk add --no-cache mariadb mariadb-client
 
-#Modif de la configuration MySQL
-#tee envoie echo au fichier et sed remplace les lignes
-RUN sed -i "s|skip-networking|skip-networking=0|g" /etc/my.cnf.d/mariadb-server.cnf \
-    sed -i "s|.*bind-address\s*=.*|bind-address=0.0.0.0|g" /etc/my.cnf.d/mariadb-server.cnf
-
 #Ouverture du port MySQL donc MariaDB par defaut
 EXPOSE 3306
 

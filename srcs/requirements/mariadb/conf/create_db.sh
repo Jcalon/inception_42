@@ -36,5 +36,9 @@ EOF
 	rm -f $tfile
 fi
 
+#Modif de la configuration MySQL avec authorisation des remote connexions
+sed -i "s|skip-networking|skip-networking=0|g" /etc/my.cnf.d/mariadb-server.cnf
+sed -i "s|.*bind-address\s*=.*|bind-address=0.0.0.0|g" /etc/my.cnf.d/mariadb-server.cnf
+
 echo "Starting mariadb server..."
 exec /usr/bin/mysqld --user=mysql --console

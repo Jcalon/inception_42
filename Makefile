@@ -1,20 +1,30 @@
 NAME = inception
 
-all: prune reload
+all:
+	@echo -e "Launching configuration ${NAME}\n"
+	@docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env up -d
 
-linux:
-	@ echo "127.0.0.1 raccoman.42.fr" >> /etc/hosts
-	
-stop:
-	@ docker-compose -f srcs/docker-compose.yml down
+build:
+	@echo -e "Building configuration ${NAME}\n"
+	@docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env up -d --build
 
-clean: stop
-	@ rm -rf ~/Desktop/inception
+down:
+	@echo -e "Stopping configuration ${NAME}\n"
+	@docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env down
 
-prune: clean
-	@ docker system prune -f
+re: down
+	@echo -e "Re Building configuration ${NAME}\n"
+	@docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env up -d --build
 
-reload: 
-	@ docker-compose -f srcs/docker-compose.yml up --build
+clean: down
+	@echo -e "Cleaning configuration ${NAME}\n"
+	@docker system prune -a
 
-.PHONY: linux stop clean prune reload all
+fclean:
+	@echo "Cleaning all configurations docker\n"
+	@docker stop $$(docker ps -qa)
+	@docker system prune --all --force --volumes
+	@docker network prune --force
+	@docker volume prune --force
+
+.PHONY: all build down re clean fclean
