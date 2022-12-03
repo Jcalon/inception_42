@@ -30,11 +30,11 @@ services:
       context: .
       dockerfile: requirements/mariadb/Dockerfile
 #On transfert nos infos secretes via args
-      args:
-        DB_NAME: ${DB_NAME}
-        DB_USER: ${DB_USER}
-        DB_PASS: ${DB_PASS}
-        DB_ROOT: ${DB_ROOT}
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_ROOT: ${DB_ROOT}
     ports:
       - "3306:3306"
     networks:
@@ -49,19 +49,19 @@ services:
     build:
       context: .
       dockerfile: requirements/wordpress/Dockerfile
-      args:
-        DOMAIN_NAME: ${DOMAIN_NAME}
-        DB_NAME: ${DB_NAME}
-        DB_USER: ${DB_USER}
-        DB_PASS: ${DB_PASS}
-        DB_HOST: ${DB_HOST}
-        WP_NAME: ${WP_NAME}
-        WP_ADMIN: ${WP_ADMIN}
-        WP_ADMIN_PASS: ${WP_ADMIN_PASS}
-        WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
-        WP_USER: ${WP_USER}
-        WP_USER_PASS: ${WP_USER_PASS}
-        WP_USER_EMAIL: ${WP_USER_EMAIL}
+    environment:
+      DOMAIN_NAME: ${DOMAIN_NAME}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_HOST: ${DB_HOST}
+      WP_NAME: ${WP_NAME}
+      WP_ADMIN: ${WP_ADMIN}
+      WP_ADMIN_PASS: ${WP_ADMIN_PASS}
+      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+      WP_USER: ${WP_USER}
+      WP_USER_PASS: ${WP_USER_PASS}
+      WP_USER_EMAIL: ${WP_USER_EMAIL}
     depends_on:
       - mariadb
     networks:

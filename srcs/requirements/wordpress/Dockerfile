@@ -1,22 +1,5 @@
 FROM alpine:3.16
 
-#On envoie les donnees via ARG et pas ENV pour pas qu'elles soient utilisees apres le demarrage et on precise la version de PHP
-ARG DB_NAME \
-    DB_USER \
-    DB_PASS \
-	DOMAIN_NAME \
-	DB_HOST \
-	DB_NAME \
-	DB_USER \
-	DB_PASS \
-	WP_NAME \
-	WP_ADMIN \
-	WP_ADMIN_PASS \
-	WP_ADMIN_EMAIL \
-	WP_USER \
-	WP_USER_PASS \
-	WP_USER_EMAIL
-
 #Installation de php sur lequel va tourner WP, -fpm pour interagir avec nginx, -fpm pour mariaDB et tout le reste requis par la doc WP
 #wget pour download WP
 #adminer et redis pour le bonus
