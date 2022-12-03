@@ -28,7 +28,6 @@ RUN	apk update && apk upgrade && apk add --no-cache \
 		
 
 #Modif de la configuration php afin que notre fastcgi ecoute le port 9000
-# RUN	adduser -S nginx &&	addgroup -S nginx
 COPY requirements/wordpress/conf/php-fpm.conf /etc/php8/php-fpm.conf
 COPY requirements/wordpress/conf/www.conf /etc/php8/php-fpm.d/www.conf
 
