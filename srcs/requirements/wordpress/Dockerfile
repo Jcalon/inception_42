@@ -37,4 +37,7 @@ COPY requirements/wordpress/tools/config_wp.sh /tmp/config_wp.sh
 
 RUN chmod +x /tmp/config_wp.sh
 
+#Ouverture du port de nginx
+EXPOSE 9000
+
 CMD [ "/tmp/config_wp.sh" ]

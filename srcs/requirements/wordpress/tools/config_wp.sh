@@ -2,7 +2,7 @@
 
 # On attend le lancement de mysql
 while ! mariadb -h$DB_HOST -u$DB_USER -p$DB_PASS $DB_NAME &>/dev/null; do
-    sleep 3
+    sleep 5
 done
 
 if [ ! -f "wp-config.php" ]; then
@@ -17,4 +17,4 @@ if [ ! -f "wp-config.php" ]; then
 fi
 
 echo "Wordpress started on :9000"
-exec /usr/sbin/php-fpm8 -F -R
+/usr/sbin/php-fpm8 -F -R
