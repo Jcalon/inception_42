@@ -11,12 +11,19 @@ RUN	apk update && apk upgrade && apk add --no-cache \
 		php8-fpm			\
 		php8-cli			\
 		php8-curl			\
+		php8-dom			\
+		php8-exif			\
+		php8-fileinfo		\
 		php8-gd				\
 		php8-iconv			\
 		php8-intl			\
 		php8-json			\
+		php8-mbstring		\
 		php8-mysqli			\
+		php8-openssl		\
 		php8-phar			\
+		php8-xml 			\
+		php8-zip			\
 		php8-zlib					
 		
 
