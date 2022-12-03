@@ -7,7 +7,7 @@ RUN apk update && apk upgrade && apk add --no-cache mariadb mariadb-client
 COPY requirements/mariadb/conf/create_db.sh /tmp/create_db.sh
 RUN chmod +x /tmp/create_db.sh
 
-#Ouverture du port de nginx
+#Ouverture du port de mariadb
 EXPOSE 3306
 
 #On passe a mysql cree au dessus et sous cet user on demarre la base de donnee
