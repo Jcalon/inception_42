@@ -33,6 +33,8 @@ RUN cp wp-cli.phar /usr/bin/wp
 
 WORKDIR /var/www/wordpress
 
+RUN pwd
+
 COPY requirements/wordpress/tools/config_wp.sh /tmp/config_wp.sh
 
 RUN chmod +x /tmp/config_wp.sh

@@ -17,4 +17,4 @@ if [ ! -f "wp-config.php" ]; then
 fi
 
 echo "Wordpress started on :9000"
-/usr/sbin/php-fpm8 -F -R
+exec /usr/sbin/php-fpm8 -F -R
