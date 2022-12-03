@@ -1,6 +1,6 @@
-FROM alpine:3.13
+FROM alpine:3.16
 
-#MAJ du gestionnaire de fichiers et installation de nginx
+#MAJ du gestionnaire de fichiers et installation de nginx et openssl pour avoir des cles
 RUN apk update && apk upgrade && apk add --no-cache nginx openssl
 
 #Creation des cles pour avoir le https
@@ -15,4 +15,4 @@ RUN mkdir -p /run/nginx
 COPY conf/nginx.conf /etc/nginx/conf.d/default.conf
 
 #Execution de la config installee
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
