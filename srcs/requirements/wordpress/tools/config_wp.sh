@@ -5,7 +5,7 @@ while ! mariadb -h$DB_HOST -u$DB_USER -p$DB_PASS $DB_NAME &>/dev/null; do
     sleep 3
 done
 
-if [ ! -f "/var/www/html/index.html" ]; then
+if [ ! -f "wp-config.php" ]; then
 
 	# Installation de wordpress via WP-CLI
     wp core download --allow-root
