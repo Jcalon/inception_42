@@ -1,14 +1,12 @@
 FROM alpine:3.16
 
 #MAJ du gestionnaire de fichiers et installation de nginx et openssl pour avoir des cles
-RUN apk update && apk upgrade && apk add --no-cache nginx openssl
+RUN apk update && apk upgrade && apk add --no-cache nginx
 
-#Creation des cles pour avoir le https
+#Copy des cles pour avoir le https
 RUN mkdir /etc/nginx/ssl
-RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
-        -out /etc/nginx/ssl/jcalon.pem \
-        -keyout /etc/nginx/ssl/jcalon.key \
-		-subj "/C=IT/ST=Bordeaux/L=Bordeaux/O=42 School/OU=jcalon/CN=jcalon/"
+COPY requirements/nginx/tools/jcalon.42.fr.crt /etc/nginx/ssl/jcalon.42.fr.crt
+COPY requirements/nginx/tools/jcalon.42.fr.key /etc/nginx/ssl/jcalon.42.fr.key
 
 #Config de nginx
 RUN mkdir -p /run/nginx
