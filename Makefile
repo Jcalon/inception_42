@@ -16,6 +16,5 @@ clean: down
 	@docker system prune -f
 	@sudo rm -rf ~/data/wordpress/*
 	@sudo rm -rf ~/data/mariadb/*
-	@sudo rm -rf ~/Desktop/inception
 
 .PHONY: all build stop clean
