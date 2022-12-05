@@ -1,6 +1,6 @@
 NAME = inception
 
-all: down build
+all: build
 
 build:
 	@echo "Building configuration ${NAME}\n"
