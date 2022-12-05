@@ -17,4 +17,4 @@ clean: down
 	@sudo rm -rf ~/data/wordpress/*
 	@sudo rm -rf ~/data/mariadb/*
 
-.PHONY: all build stop clean
+.PHONY: all build down clean
